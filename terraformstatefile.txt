@@ -1,1 +1,0 @@
-By utilizing the state file, Terraform can track the current state of your infrastructure and understand the changes that need to be made to achieve the desired configuration. This enables Terraform to perform operations such as resource creation, modification, and deletion in a predictable and reliable manner.
