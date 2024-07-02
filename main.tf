@@ -1,17 +1,20 @@
 terraform {
   backend "azurerm" {
-    resource_group_name   = "demosataterg"
-    storage_account_name  = "demostatesa12345678"
+    resource_group_name   = "demosatatergnew"
+    storage_account_name  = "demostatesaterra123"
     container_name        = "terraform-state-cont"
     key                   = "terraform.tfstate"
+    use_msi               = true
+    client_id             = "584d385a-3014-4753-8ae9-f99137844da1"
+    access_key            = "YI2jYffR0py6EFrpJFeEvWTJGvN6rEvghRf1bQJv3OvMBmH9qzTmQcPns+ofdefLauVdJVZ0Ig5t+AStdZeYeg=="
   }
 }
 
 provider "azurerm" {
   features {}
 
-  use_msi         = true
-  subscription_id = var.subscription_id
+  #use_msi    = true
+  #client_id  = "584d385a-3014-4753-8ae9-f99137844da1"
 }
 
 resource "azurerm_resource_group" "example" {
@@ -34,15 +37,16 @@ resource "azurerm_subnet" "bastion" {
 }
 
 resource "azurerm_storage_account" "example" {
-  name                = var.vnet_name
-  address_space       = var.vnet_address_space
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  name                     = var.storage_account_name
+  resource_group_name      = azurerm_resource_group.example.name
+  location                 = azurerm_resource_group.example.location
+  account_tier             = var.storage_account_tier
+  account_replication_type = var.storage_account_replication_type
 }
 
 resource "azurerm_storage_container" "example" {
-  name                = var.vnet_name
-  address_space       = var.vnet_address_space
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  for_each              = toset(var.storage_container_names)
+  name                  = each.value
+  storage_account_name  = azurerm_storage_account.example.name
+  container_access_type = "private"
 }
