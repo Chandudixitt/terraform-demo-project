@@ -5,7 +5,7 @@ terraform {
     container_name        = "terraform-state-cont"
     key                   = "terraform.tfstate"
     use_msi               = true
-    client_id             = "584d385a-3014-4753-8ae9-f99137844da1"
+    client_id             = "baa098d2-1b99-4279-a14b-858403e93b82"
     access_key            = "YI2jYffR0py6EFrpJFeEvWTJGvN6rEvghRf1bQJv3OvMBmH9qzTmQcPns+ofdefLauVdJVZ0Ig5t+AStdZeYeg=="
   }
 }
@@ -15,7 +15,7 @@ provider "azurerm" {
 
   use_msi         = true
   subscription_id = var.subscription_id
-  client_id       = "584d385a-3014-4753-8ae9-f99137844da1" 
+  client_id       = "baa098d2-1b99-4279-a14b-858403e93b82" 
 }
 
 resource "azurerm_resource_group" "example" {
